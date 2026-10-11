@@ -89,7 +89,7 @@ label.f{display:block;margin-bottom:12px;font-size:.85rem;color:var(--mute)}
       <label><input type="radio" name="type" value="inc"><span>Ingreso</span></label>
     </div>
     <label class="f">Importe (€)<input name="amount" type="number" inputmode="decimal" step="0.01" min="0.01" required></label>
-    <label class="f">Categoría<select name="cat"></select></label>
+    <label class="f" id="catlabel">Categoría<select name="cat"></select></label>
     <label class="f">Fecha<input name="date" type="date" required></label>
     <label class="f">Nota (opcional)<input name="note" maxlength="60"></label>
     <div class="actions"><button type="button" id="cancel">Cancelar</button><button class="ok">Guardar</button></div>
@@ -156,14 +156,17 @@ $('#prev').onclick=()=>shift(-1);$('#next').onclick=()=>shift(1);
 
 const dlg=$('#dlg'),form=$('#form');
 form.cat.innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');
-$('#add').onclick=()=>{form.reset();form.date.value=today();dlg.showModal();form.amount.focus()};
+function updateCat(){ $('#catlabel').style.display = form.type.value==='inc' ? 'none' : ''; } form.addEventListener('change', updateCat); 
+$('#add').onclick=()=>{form.reset();
+updateCat();form.date.value=today();
+dlg.showModal();form.amount.focus()};
 $('#cancel').onclick=()=>dlg.close();
 form.onsubmit=e=>{
   e.preventDefault();
   const f=new FormData(form);
   const amount=parseFloat(String(f.get('amount')).replace(',','.'));
   if(!(amount>0))return;
-  S.tx.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),type:f.get('type'),amount,cat:f.get('cat'),date:f.get('date'),note:f.get('note').trim()});
+  S.tx.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),type:f.get('type'),amount,cat:f.get('type')==='inc'?'Ingresos':f.get('cat'),date:f.get('date'),note:f.get('note').trim()});
   save();dlg.close();ym=f.get('date').slice(0,7);render();
 };
 
