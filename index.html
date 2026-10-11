@@ -41,6 +41,7 @@ h2{font-size:1rem;margin:0 0 10px}
 .tools button,.tools label{flex:1;text-align:center;border:1px solid var(--line);background:none;border-radius:10px;padding:10px;font-size:.9rem;cursor:pointer}
 dialog{border:0;border-radius:20px;background:var(--card);color:var(--ink);width:min(92vw,440px);padding:20px}
 dialog::backdrop{background:#0008}
+dialog{overflow-x:hidden} .f input,.f select{min-width:0;max-width:100%} .f input[type=date]{-webkit-appearance:none;appearance:none;height:48px;text-align:left}
 label.f{display:block;margin-bottom:12px;font-size:.85rem;color:var(--mute)}
 .f input,.f select{display:block;width:100%;margin-top:4px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
@@ -185,6 +186,8 @@ $('#import').onchange=async e=>{
   e.target.value='';
 };
 
+['gesturestart','gesturechange','gestureend'].forEach(t=>document.addEventListener(t,e=>e.preventDefault())); 
+document.addEventListener('touchmove',e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();
 </script>
