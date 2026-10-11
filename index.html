@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Mis gastos</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg">
@@ -160,7 +160,7 @@ form.cat.innerHTML=CATS.map(c=>`<option>${c}</option>`).join('');
 function updateCat(){ $('#catlabel').style.display = form.type.value==='inc' ? 'none' : ''; } form.addEventListener('change', updateCat); 
 $('#add').onclick=()=>{form.reset();
 updateCat();form.date.value=today();
-dlg.showModal();form.amount.focus()};
+dlg.showModal()};
 $('#cancel').onclick=()=>dlg.close();
 form.onsubmit=e=>{
   e.preventDefault();
